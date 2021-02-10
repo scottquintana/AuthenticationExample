@@ -10,6 +10,7 @@ import UIKit
 class LoginVC: UIViewController {
     
     let loginView = LoginView()
+    let secureStore = SecureStore()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,6 +18,8 @@ class LoginVC: UIViewController {
         title = "Login"
         loginView.delegate = self
         configureLoginView()
+        
+        checkForToken()
     }
 
     private func configureLoginView() {
@@ -39,15 +42,32 @@ class LoginVC: UIViewController {
             switch result {
             case .success(let authInfo):
                 let token = authInfo.token
+                self.storeToken(token: token)
+                
                 let user = authInfo.user
                 DispatchQueue.main.async {
-            
                     self.navigationController?.pushViewController(WelcomeVC(user: user), animated: true)
                 }
                 
             case .failure(let error):
                 print(error.rawValue)
             }
+        }
+    }
+    
+    
+    private func storeToken(token: String) {
+        do {
+            try secureStore.set(entry: token, forKey: Keys.token)
+        } catch {
+            print("Could not store credentials securely")
+        }
+    }
+    
+    private func checkForToken() {
+        guard let storedToken = try? secureStore.entry(forKey: Keys.token) else {
+            print("No stored token")
+            return
         }
     }
 

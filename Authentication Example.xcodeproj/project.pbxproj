@@ -27,6 +27,7 @@
 		5EDEAF4B25C9CC2E009066A9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDEAF4A25C9CC2E009066A9 /* User.swift */; };
 		5EE36E7725D478490028306A /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE36E7625D478490028306A /* WelcomeVC.swift */; };
 		5EE36E7C25D47CED0028306A /* SecureStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE36E7B25D47CED0028306A /* SecureStore.swift */; };
+		5EE36E8425D483610028306A /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE36E8325D483610028306A /* Keys.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,7 @@
 		5EDEAF4A25C9CC2E009066A9 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		5EE36E7625D478490028306A /* WelcomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVC.swift; sourceTree = "<group>"; };
 		5EE36E7B25D47CED0028306A /* SecureStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureStore.swift; sourceTree = "<group>"; };
+		5EE36E8325D483610028306A /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,7 +125,7 @@
 		5E36488725C87F8E0008DC26 /* Authentication Example */ = {
 			isa = PBXGroup;
 			children = (
-				5EE36E7525D477A10028306A /* SecureStore */,
+				5EE36E7525D477A10028306A /* Auth */,
 				5E758DD925CC92BC0031121B /* Constants */,
 				5EDEAF4425C9CB66009066A9 /* Models */,
 				5EDEAF3E25C9CB47009066A9 /* Managers */,
@@ -244,12 +246,13 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		5EE36E7525D477A10028306A /* SecureStore */ = {
+		5EE36E7525D477A10028306A /* Auth */ = {
 			isa = PBXGroup;
 			children = (
 				5EE36E7B25D47CED0028306A /* SecureStore.swift */,
+				5EE36E8325D483610028306A /* Keys.swift */,
 			);
-			path = SecureStore;
+			path = Auth;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -382,6 +385,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5EE36E7C25D47CED0028306A /* SecureStore.swift in Sources */,
+				5EE36E8425D483610028306A /* Keys.swift in Sources */,
 				5EDEAF4B25C9CC2E009066A9 /* User.swift in Sources */,
 				5ECA9EDD25C89A0800E55AAF /* SignupView.swift in Sources */,
 				5E36488D25C87F8E0008DC26 /* LoginVC.swift in Sources */,
