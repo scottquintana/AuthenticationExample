@@ -9,6 +9,16 @@ import UIKit
 
 class AEButton: UIButton {
 
+    override var isEnabled: Bool {
+            didSet {
+                if self.isEnabled {
+                    self.alpha = 1
+                } else {
+                    self.alpha = 0.4
+                }
+            }
+        }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()

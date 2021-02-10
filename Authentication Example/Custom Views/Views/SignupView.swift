@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 class SignupView: UIView {
     
@@ -20,12 +21,29 @@ class SignupView: UIView {
     let passwordAgainInput = AETextField()
     let passwordValidationLabel = AEInputLabel()
     
+    @Published var password: String = ""
+    @Published var passwordAgain: String = ""
+    
+    var validatedPassword: AnyPublisher<String?, Never> {
+        return $password.combineLatest($passwordAgain) { password, passwordAgain in
+            guard password == passwordAgain, password.count >= 8 else { return nil }
+            return password
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    var signupButtonStream: AnyCancellable?
+    
     let signupButton = AEButton(title: "Signup!", backgroundColor: .black)
+    
+    
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .systemGray
         configureLayout()
+        configurePasswordValidations()
+
     }
     
     required init?(coder: NSCoder) {
@@ -50,6 +68,8 @@ class SignupView: UIView {
         emailInput.autocapitalizationType = .none
         passwordInput.isSecureTextEntry = true
         passwordAgainInput.isSecureTextEntry = true
+        
+        signupButton.addTarget(self, action: #selector(signupButtonPressed), for: .touchUpInside)
         
         let padding: CGFloat = 20
         let labelHeight: CGFloat = 16
@@ -112,9 +132,36 @@ class SignupView: UIView {
             signupButton.widthAnchor.constraint(equalToConstant: 100),
             signupButton.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             signupButton.heightAnchor.constraint(equalToConstant: 32)
-            
-            
         ])
-    
     }
+    
+    private func configurePasswordValidations() {
+        
+        self.signupButtonStream = self.validatedPassword
+            .map { $0 != nil }
+            .receive(on: RunLoop.main)
+            .assign(to: \.isEnabled, on: signupButton)
+        
+        passwordInput.addTarget(self, action: #selector(passwordChanged(_:)), for: .editingChanged)
+        passwordAgainInput.addTarget(self, action: #selector(passwordAgainChanged(_:)), for: .editingChanged)
+        
+
+    }
+    
+    
+    @objc private func passwordChanged(_ sender: AETextField) {
+        self.password = sender.text ?? ""
+    }
+    
+    @objc private func passwordAgainChanged(_ sender: AETextField) {
+        self.passwordAgain = sender.text ?? ""
+        print(password)
+        print(passwordAgain)
+    }
+    
+    @objc private func signupButtonPressed() {
+        print("tapped")
+    }
+    
+    
 }

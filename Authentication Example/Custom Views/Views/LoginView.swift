@@ -7,11 +7,16 @@
 
 import UIKit
 
+protocol LoginViewDelegate: class {
+    func didPressLogin(email: String, password: String)
+}
 class LoginView: UIView {
 
     let emailInput = AETextField()
     let passwordInput = AETextField()
     let loginButton = AEButton(title: "Login", backgroundColor: .black)
+    
+    weak var delegate: LoginViewDelegate!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -29,9 +34,14 @@ class LoginView: UIView {
         addSubview(loginButton)
         
         emailInput.placeholder = "Email"
+        emailInput.autocorrectionType = .no
+        emailInput.autocapitalizationType = .none
+        
         passwordInput.placeholder = "Password"
         passwordInput.isSecureTextEntry = true
         translatesAutoresizingMaskIntoConstraints = false
+        
+        loginButton.addTarget(self, action: #selector(loginPressed), for: .touchUpInside)
         
         let padding: CGFloat = 30
         NSLayoutConstraint.activate([
@@ -50,5 +60,12 @@ class LoginView: UIView {
             loginButton.heightAnchor.constraint(equalToConstant: 32),
             loginButton.centerXAnchor.constraint(equalTo: self.centerXAnchor)
         ])
+    }
+    
+    @objc private func loginPressed() {
+        guard let email = emailInput.text else { return }
+        guard let password = passwordInput.text else { return }
+        
+        delegate.didPressLogin(email: email, password: password)
     }
 }
